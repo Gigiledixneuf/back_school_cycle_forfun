@@ -29,6 +29,10 @@ class AuthenticatedSessionController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
+        if(!$user->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Votre adresse email n\'est pas encore verifiée.'], 401);
+        }
+
         // Génération d’un token d’authentification via Laravel Sanctum
         $token = $user->createToken($user->email)->plainTextToken;
 
