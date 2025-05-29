@@ -26,6 +26,8 @@ class AnnouncementResource extends JsonResource
             'exchange_location_lng'=>$this->exchange_location_lng,
             'exchange_location_lat'=>$this->exchange_location_lat,
             'category' => new CategoryResource($this->category),
+            'photos'=>$this->photos,
+            'created_by'=> new UserResource($this->user)
         ];
     }
 }

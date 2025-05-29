@@ -16,7 +16,8 @@ class AnnouncementTest extends TestCase
     public function test_create_announcement()
     {
 
-        $user = User::factory()->create();
+        $user = User::factory()->create(['role' => 'tutor']);
+
         $category = Category::factory()->create();
 
         Sanctum::actingAs($user);

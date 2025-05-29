@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AnnouncementResource;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class CategoryController extends Controller
             'name'=>$request['name'],
             'description'=>$request['description']
         ]);
-        
+
         return new CategoryResource($category);
     }
 
@@ -39,8 +40,23 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category= Category:: findOrFail($id);
-        return new CategoryResource($category);
+        // $category= Category:: findOrFail($id);
+        // return new CategoryResource($category);
+        try{
+            $category = Category::find($id);
+            if (!$category) {
+                return response()->json([
+                    "message" => "La catégorie n'existe pas"
+                ]);
+            }
+            $announcements = $category->announcements()->where('is_completed', false)->where('is_cancelled', false)->orderBy('created_at', 'desc')->get();
+            return AnnouncementResource::collection($announcements);
+        }catch(\Exception $e){
+            return response()->json([
+                "message" => "Une erreur est survenue",
+                "error" => $e->getMessage()
+            ]);
+        }
 
     }
 
@@ -67,7 +83,7 @@ class CategoryController extends Controller
      */
     public function destroy( Category $category)
     {
-        
+
         $category->delete();
         return response()->json([
 
