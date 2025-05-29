@@ -23,7 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
 
     public function announcements(){
-        return $this->hasMany(Announcement::class);
+        return $this->hasMany(Announcement::class,'created_by');
     }
 
     public function favorites(){
@@ -62,5 +62,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function tutor(){
+        return $this->hasOne(Tutor::class);
     }
 }

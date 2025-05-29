@@ -15,6 +15,7 @@ class Announcement extends Model
         'description',
         'category_id',
         'operation_type',
+        'state',
         'price',
         'is_completed',
         'is_cancelled',
@@ -25,7 +26,7 @@ class Announcement extends Model
 
     ];
     public function user():BelongsTo{
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'created_by');
     }
     public function category():BelongsTo{
         return $this->belongsTo(Category::class);
@@ -33,6 +34,10 @@ class Announcement extends Model
 
     public function favorites(){
         return $this->hasMany(Favorite::class);
+    }
+
+    public function photos(){
+        return $this->hasMany(Photo::class);
     }
 
 }

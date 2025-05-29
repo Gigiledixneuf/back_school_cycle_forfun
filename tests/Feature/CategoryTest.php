@@ -15,7 +15,7 @@ class CategoryTest extends TestCase
 
 
    
-        $response = $this->postJson('/api/category', [
+        $response = $this->postJson('/api/categories', [
             'name' => 'Test category',
             'description' => 'Une super category de test',
             
